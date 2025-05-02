@@ -85,6 +85,7 @@ export default function Details() {
 
         <p className="mb-4">{post.body}</p>
 
+        <p className="mb-1 font-semibold">Categoria da história:</p>
         <div className="flex flex-wrap gap-2 mb-4">
           {post.tags.map((tag, index) => (
             <span
@@ -112,7 +113,7 @@ export default function Details() {
             </span>
           </div>
         </div>
-
+      
         <button
           onClick={() => navigate("/")}
           className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 flex items-center gap-2 cursor-pointer"

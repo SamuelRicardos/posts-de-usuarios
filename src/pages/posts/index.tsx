@@ -4,6 +4,8 @@ import axios from "axios";
 import { FaEdit, FaTrashAlt, FaSearch, FaPlus } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 type Post = {
   id: number;
@@ -17,13 +19,16 @@ export default function Posts() {
   const [body, setBody] = useState("");
   const [editPostId, setEditPostId] = useState<number | null>(null);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true); // Estado de carregamento
 
   const fetchPosts = async () => {
     try {
       const res = await axios.get("https://dummyjson.com/posts");
       setPosts(res.data.posts);
+      setLoading(false); // Dados carregados, remover o carregamento
     } catch (error) {
       console.error("Erro ao buscar posts:", error);
+      setLoading(false); // Caso de erro, também remover o carregamento
     }
   };
 
@@ -126,32 +131,45 @@ export default function Posts() {
       </form>
 
       <div className="space-y-4">
-        {filteredPosts.map((post) => (
-          <div
-            key={post.id}
-            className="relative border p-4 rounded shadow bg-white flex flex-col gap-4"
-          >
-            <div className="absolute top-2 right-2 flex gap-2">
-              <button
-                className="bg-yellow-400 px-3 py-1 rounded text-white cursor-pointer"
-                onClick={() => handleEdit(post)}
+        {/* Exibe esqueleto de carregamento enquanto os dados estão sendo carregados */}
+        {loading
+          ? Array(5)
+              .fill(null)
+              .map((_, index) => (
+                <div
+                  key={index}
+                  className="relative border p-4 rounded shadow bg-white flex flex-col gap-4"
+                >
+                  <Skeleton height={30} width="60%" />
+                  <Skeleton count={3} />
+                </div>
+              ))
+          : filteredPosts.map((post) => (
+              <div
+                key={post.id}
+                className="relative border p-4 rounded shadow bg-white flex flex-col gap-4"
               >
-                <FaEdit />
-              </button>
-              <button
-                className="bg-red-500 text-white px-3 py-1 rounded cursor-pointer"
-                onClick={() => handleDelete(post.id)}
-              >
-                <FaTrashAlt />
-              </button>
-            </div>
+                <div className="absolute top-2 right-2 flex gap-2">
+                  <button
+                    className="bg-yellow-400 px-3 py-1 rounded text-white cursor-pointer"
+                    onClick={() => handleEdit(post)}
+                  >
+                    <FaEdit />
+                  </button>
+                  <button
+                    className="bg-red-500 text-white px-3 py-1 rounded cursor-pointer"
+                    onClick={() => handleDelete(post.id)}
+                  >
+                    <FaTrashAlt />
+                  </button>
+                </div>
 
-            <Link to={`/details/${post.id}`} className="cursor-pointer">
-              <h2 className="text-lg font-semibold">{post.title}</h2>
-              <p className="text-gray-700">{post.body}</p>
-            </Link>
-          </div>
-        ))}
+                <Link to={`/details/${post.id}`} className="cursor-pointer">
+                  <h2 className="text-lg font-semibold">{post.title}</h2>
+                  <p className="text-gray-700">{post.body}</p>
+                </Link>
+              </div>
+            ))}
       </div>
 
       <ToastContainer />

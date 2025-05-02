@@ -180,33 +180,34 @@ export default function Posts() {
                 />
               </div>
             ))
-          : filteredPosts.map((post) => (
-            <div
-              key={post.id}
-              className={`relative border p-4 rounded shadow flex flex-col gap-4 ${isDarkMode ? "bg-gray-800 border-gray-600 text-gray-100" : "bg-white text-gray-700"
-                }`}
-            >
-              <div className="absolute top-2 right-2 flex gap-2">
-                <button
-                  className="bg-yellow-400 px-3 py-1 rounded text-white cursor-pointer"
-                  onClick={() => handleEdit(post)}
-                >
-                  <FaEdit />
-                </button>
-                <button
-                  className="bg-red-500 text-white px-3 py-1 rounded cursor-pointer"
-                  onClick={() => handleDelete(post.id)}
-                >
-                  <FaTrashAlt />
-                </button>
+            : filteredPosts.map((post) => (
+              <div
+                key={post.id}
+                className={`relative border p-4 rounded shadow flex flex-col gap-4 ${isDarkMode ? "bg-gray-800 border-gray-600 text-gray-100" : "bg-white text-gray-700"
+                  }`}
+              >
+                <div className="flex gap-2 sm:absolute sm:top-2 sm:right-2 self-end">
+                  <button
+                    className="bg-yellow-400 px-3 py-1 rounded text-white cursor-pointer"
+                    onClick={() => handleEdit(post)}
+                  >
+                    <FaEdit />
+                  </button>
+                  <button
+                    className="bg-red-500 text-white px-3 py-1 rounded cursor-pointer"
+                    onClick={() => handleDelete(post.id)}
+                  >
+                    <FaTrashAlt />
+                  </button>
+                </div>
+            
+                <Link to={`/details/${post.id}`} className="cursor-pointer">
+                  <h2 className="text-lg font-semibold">{post.title}</h2>
+                  <p>{post.body}</p>
+                </Link>
               </div>
-
-              <Link to={`/details/${post.id}`} className="cursor-pointer">
-                <h2 className="text-lg font-semibold">{post.title}</h2>
-                <p>{post.body}</p>
-              </Link>
-            </div>
-          ))}
+            ))
+            }
       </div>
 
       <ToastContainer />

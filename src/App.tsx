@@ -89,7 +89,7 @@ function App() {
         />
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded"
+          className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer"
         >
           {editPostId ? "Atualizar Post" : "Criar Post"}
         </button>
@@ -102,13 +102,13 @@ function App() {
             <p className="text-gray-700">{post.body}</p>
             <div className="mt-2 flex gap-2">
               <button
-                className="bg-yellow-400 px-3 py-1 rounded"
+                className="bg-yellow-400 px-3 py-1 rounded cursor-pointer"
                 onClick={() => handleEdit(post)}
               >
                 Editar
               </button>
               <button
-                className="bg-red-500 text-white px-3 py-1 rounded"
+                className="bg-red-500 text-white px-3 py-1 rounded cursor-pointer"
                 onClick={() => handleDelete(post.id)}
               >
                 Excluir

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { FaThumbsUp, FaThumbsDown, FaEye, FaArrowLeft } from "react-icons/fa";
+import { FaThumbsUp, FaThumbsDown, FaEye, FaArrowLeft, FaSun, FaMoon } from "react-icons/fa";
 import axios from "axios";
 import { useThemeStore } from "../../store/themeStore";
 
@@ -74,9 +74,12 @@ export default function Details() {
           <h1 className="text-2xl font-bold">{post.title}</h1>
           <button
             onClick={toggleTheme}
-            className="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600 cursor-pointer"
+            className="px-3 py-2 text-sm sm:text-base bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center gap-2 transition-all duration-200 cursor-pointer"
           >
-            {theme === "dark" ? "Modo Claro" : "Modo Escuro"}
+            {theme === "dark" ? <FaSun className="text-lg sm:text-xl" /> : <FaMoon className="text-lg sm:text-xl" />}
+            <span className="hidden sm:inline">
+              {theme === "dark" ? "Modo Claro" : "Modo Escuro"}
+            </span>
           </button>
         </div>
 
@@ -86,11 +89,10 @@ export default function Details() {
           {post.tags.map((tag, index) => (
             <span
               key={index}
-              className={`text-sm px-2 py-1 rounded ${
-                theme === "dark"
-                  ? "bg-blue-900 text-blue-200"
-                  : "bg-blue-100 text-blue-800"
-              }`}
+              className={`text-sm px-2 py-1 rounded ${theme === "dark"
+                ? "bg-blue-900 text-blue-200"
+                : "bg-blue-100 text-blue-800"
+                }`}
             >
               {tag}
             </span>

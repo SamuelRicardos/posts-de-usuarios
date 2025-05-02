@@ -118,10 +118,12 @@ export default function Posts() {
         <h1 className="text-2xl font-bold">CRUD de Posts</h1>
         <button
           onClick={toggleTheme}
-          className="flex items-center gap-2 bg-gray-700 text-white px-4 py-2 rounded hover:opacity-90 transition cursor-pointer"
+          className="flex items-center gap-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition cursor-pointer sm:px-3 sm:py-1"
         >
-          {isDarkMode ? <FaSun /> : <FaMoon />}
-          {isDarkMode ? "Modo Claro" : "Modo Escuro"}
+          {isDarkMode ? <FaSun className="text-lg sm:text-xl" /> : <FaMoon className="text-lg sm:text-xl" />}
+          <span className="hidden sm:inline">
+            {isDarkMode ? "Modo Claro" : "Modo Escuro"}
+          </span>
         </button>
       </div>
 
@@ -156,8 +158,8 @@ export default function Posts() {
         <textarea
           placeholder="Conteúdo"
           className={`w-full h-50 p-2 border rounded mb-2 ${isDarkMode
-              ? "bg-gray-800 text-white border-gray-600 placeholder-gray-400"
-              : "bg-gray-100 text-black placeholder-gray-500"
+            ? "bg-gray-800 text-white border-gray-600 placeholder-gray-400"
+            : "bg-gray-100 text-black placeholder-gray-500"
             }`}
           value={body}
           onChange={(e) => setBody(e.target.value)}

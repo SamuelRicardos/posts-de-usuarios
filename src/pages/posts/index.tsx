@@ -26,7 +26,6 @@ export default function Posts() {
 
   const isDarkMode = theme === "dark";
 
-  // Inicializa o tema baseado no localStorage
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
     if (savedTheme) {
@@ -34,7 +33,6 @@ export default function Posts() {
     }
   }, [setTheme]);
 
-  // Aplica a classe "dark" ao <html> conforme o Zustand
   useEffect(() => {
     const root = document.documentElement;
     if (theme === "dark") {
@@ -120,7 +118,7 @@ export default function Posts() {
         <h1 className="text-2xl font-bold">CRUD de Posts</h1>
         <button
           onClick={toggleTheme}
-          className="flex items-center gap-2 bg-gray-700 text-white px-4 py-2 rounded hover:opacity-90 transition"
+          className="flex items-center gap-2 bg-gray-700 text-white px-4 py-2 rounded hover:opacity-90 transition cursor-pointer"
         >
           {isDarkMode ? <FaSun /> : <FaMoon />}
           {isDarkMode ? "Modo Claro" : "Modo Escuro"}

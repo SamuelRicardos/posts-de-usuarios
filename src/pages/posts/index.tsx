@@ -21,7 +21,28 @@ export default function Posts() {
   const [editPostId, setEditPostId] = useState<number | null>(null);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
-  const { isDarkMode, toggleTheme } = useThemeStore();
+
+  const { theme, toggleTheme, setTheme } = useThemeStore();
+
+  const isDarkMode = theme === "dark";
+
+  // Inicializa o tema baseado no localStorage
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null;
+    if (savedTheme) {
+      setTheme(savedTheme);
+    }
+  }, [setTheme]);
+
+  // Aplica a classe "dark" ao <html> conforme o Zustand
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+  }, [theme]);
 
   const fetchPosts = async () => {
     try {
@@ -104,7 +125,6 @@ export default function Posts() {
           {isDarkMode ? <FaSun /> : <FaMoon />}
           {isDarkMode ? "Modo Claro" : "Modo Escuro"}
         </button>
-
       </div>
 
       <div
@@ -180,34 +200,33 @@ export default function Posts() {
                 />
               </div>
             ))
-            : filteredPosts.map((post) => (
-              <div
-                key={post.id}
-                className={`relative border p-4 rounded shadow flex flex-col gap-4 ${isDarkMode ? "bg-gray-800 border-gray-600 text-gray-100" : "bg-white text-gray-700"
-                  }`}
-              >
-                <div className="flex gap-2 sm:absolute sm:top-2 sm:right-2 self-end">
-                  <button
-                    className="bg-yellow-400 px-3 py-1 rounded text-white cursor-pointer"
-                    onClick={() => handleEdit(post)}
-                  >
-                    <FaEdit />
-                  </button>
-                  <button
-                    className="bg-red-500 text-white px-3 py-1 rounded cursor-pointer"
-                    onClick={() => handleDelete(post.id)}
-                  >
-                    <FaTrashAlt />
-                  </button>
-                </div>
-            
-                <Link to={`/details/${post.id}`} className="cursor-pointer">
-                  <h2 className="text-lg font-semibold">{post.title}</h2>
-                  <p>{post.body}</p>
-                </Link>
+          : filteredPosts.map((post) => (
+            <div
+              key={post.id}
+              className={`relative border p-4 rounded shadow flex flex-col gap-4 ${isDarkMode ? "bg-gray-800 border-gray-600 text-gray-100" : "bg-white text-gray-700"
+                }`}
+            >
+              <div className="flex gap-2 sm:absolute sm:top-2 sm:right-2 self-end">
+                <button
+                  className="bg-yellow-400 px-3 py-1 rounded text-white cursor-pointer"
+                  onClick={() => handleEdit(post)}
+                >
+                  <FaEdit />
+                </button>
+                <button
+                  className="bg-red-500 text-white px-3 py-1 rounded cursor-pointer"
+                  onClick={() => handleDelete(post.id)}
+                >
+                  <FaTrashAlt />
+                </button>
               </div>
-            ))
-            }
+
+              <Link to={`/details/${post.id}`} className="cursor-pointer">
+                <h2 className="text-lg font-semibold">{post.title}</h2>
+                <p>{post.body}</p>
+              </Link>
+            </div>
+          ))}
       </div>
 
       <ToastContainer />

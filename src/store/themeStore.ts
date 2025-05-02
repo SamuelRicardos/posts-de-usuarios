@@ -1,14 +1,21 @@
-import { create } from 'zustand';
+import { create } from "zustand";
 
 type ThemeStore = {
-  isDarkMode: boolean;
+  theme: "light" | "dark";
   toggleTheme: () => void;
+  setTheme: (theme: "light" | "dark") => void;
 };
 
 export const useThemeStore = create<ThemeStore>((set) => ({
-  isDarkMode: false,
+  theme: "light",
   toggleTheme: () =>
-    set((state) => ({
-      isDarkMode: !state.isDarkMode,
-    })),
+    set((state) => {
+      const newTheme = state.theme === "light" ? "dark" : "light";
+      localStorage.setItem("theme", newTheme);
+      return { theme: newTheme };
+    }),
+  setTheme: (theme) => {
+    localStorage.setItem("theme", theme);
+    set({ theme });
+  }
 }));

@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { FaEdit, FaTrashAlt, FaSearch, FaPlus } from "react-icons/fa";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 type Post = {
   id: number;
@@ -41,6 +43,7 @@ export default function Posts() {
         });
         setPosts(posts.map((post) => (post.id === editPostId ? res.data : post)));
         setEditPostId(null);
+        toast.success("Post atualizado com sucesso!");
       } else {
         const res = await axios.post("https://dummyjson.com/posts/add", {
           title,
@@ -48,12 +51,14 @@ export default function Posts() {
           userId: 1,
         });
         setPosts([res.data, ...posts]);
+        toast.success("Post criado com sucesso!");
       }
 
       setTitle("");
       setBody("");
     } catch (error) {
       console.error("Erro ao salvar post:", error);
+      toast.error("Erro ao salvar post!");
     }
   };
 
@@ -61,8 +66,10 @@ export default function Posts() {
     try {
       await axios.delete(`https://dummyjson.com/posts/${id}`);
       setPosts(posts.filter((post) => post.id !== id));
+      toast.success("Post deletado com sucesso!");
     } catch (error) {
       console.error("Erro ao deletar post:", error);
+      toast.error("Erro ao deletar post!");
     }
   };
 
@@ -116,7 +123,6 @@ export default function Posts() {
             </>
           )}
         </button>
-
       </form>
 
       <div className="space-y-4">
@@ -147,6 +153,8 @@ export default function Posts() {
           </div>
         ))}
       </div>
+
+      <ToastContainer />
     </div>
   );
 }

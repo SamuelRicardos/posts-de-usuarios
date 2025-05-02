@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { FaEdit, FaTrashAlt, FaSearch } from "react-icons/fa";
 
 type Post = {
   id: number;
@@ -13,6 +14,7 @@ export default function Posts() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [editPostId, setEditPostId] = useState<number | null>(null);
+  const [search, setSearch] = useState("");
 
   const fetchPosts = async () => {
     try {
@@ -70,9 +72,24 @@ export default function Posts() {
     setEditPostId(post.id);
   };
 
+  const filteredPosts = posts.filter((post) =>
+    post.title.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <div className="max-w-3xl mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">CRUD de Posts</h1>
+
+      <div className="mb-6 flex items-center border rounded">
+        <FaSearch className="ml-2 text-gray-600" />
+        <input
+          type="text"
+          placeholder="Pesquisar por título"
+          className="w-full p-2 pl-8 border-none rounded outline-none"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </div>
 
       <form onSubmit={handleSubmit} className="mb-6">
         <input
@@ -97,26 +114,30 @@ export default function Posts() {
       </form>
 
       <div className="space-y-4">
-        {posts.map((post) => (
-          <div key={post.id} className="border p-4 rounded shadow bg-white">
+        {filteredPosts.map((post) => (
+          <div
+            key={post.id}
+            className="relative border p-4 rounded shadow bg-white flex flex-col gap-4"
+          >
+            <div className="absolute top-2 right-2 flex gap-2">
+              <button
+                className="bg-yellow-400 px-3 py-1 rounded text-white"
+                onClick={() => handleEdit(post)}
+              >
+                <FaEdit />
+              </button>
+              <button
+                className="bg-red-500 text-white px-3 py-1 rounded"
+                onClick={() => handleDelete(post.id)}
+              >
+                <FaTrashAlt />
+              </button>
+            </div>
+
             <Link to={`/details/${post.id}`} className="cursor-pointer">
               <h2 className="text-lg font-semibold">{post.title}</h2>
               <p className="text-gray-700">{post.body}</p>
             </Link>
-            <div className="mt-2 flex gap-2">
-              <button
-                className="bg-yellow-400 px-3 py-1 rounded cursor-pointer"
-                onClick={() => handleEdit(post)}
-              >
-                Editar
-              </button>
-              <button
-                className="bg-red-500 text-white px-3 py-1 rounded cursor-pointer"
-                onClick={() => handleDelete(post.id)}
-              >
-                Excluir
-              </button>
-            </div>
           </div>
         ))}
       </div>

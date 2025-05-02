@@ -99,7 +99,7 @@ export default function Posts() {
       <div className="space-y-4">
         {posts.map((post) => (
           <div key={post.id} className="border p-4 rounded shadow bg-white">
-            <Link to={`/details/${post.id}`} className="block hover:underline">
+            <Link to={`/details/${post.id}`} className="cursor-pointer">
               <h2 className="text-lg font-semibold">{post.title}</h2>
               <p className="text-gray-700">{post.body}</p>
             </Link>

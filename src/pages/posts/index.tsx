@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { FaEdit, FaTrashAlt, FaSearch } from "react-icons/fa";
+import { FaEdit, FaTrashAlt, FaSearch, FaPlus } from "react-icons/fa";
 
 type Post = {
   id: number;
@@ -107,10 +107,16 @@ export default function Posts() {
         />
         <button
           type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer"
+          className="flex flex-row items-center justify-center bg-blue-500 text-white px-4 py-2 rounded cursor-pointer"
         >
-          {editPostId ? "Atualizar Post" : "Criar Post"}
+          {editPostId ? "Atualizar Post" : (
+            <>
+              <FaPlus className="mr-2" />
+              Criar post
+            </>
+          )}
         </button>
+
       </form>
 
       <div className="space-y-4">
@@ -121,13 +127,13 @@ export default function Posts() {
           >
             <div className="absolute top-2 right-2 flex gap-2">
               <button
-                className="bg-yellow-400 px-3 py-1 rounded text-white"
+                className="bg-yellow-400 px-3 py-1 rounded text-white cursor-pointer"
                 onClick={() => handleEdit(post)}
               >
                 <FaEdit />
               </button>
               <button
-                className="bg-red-500 text-white px-3 py-1 rounded"
+                className="bg-red-500 text-white px-3 py-1 rounded cursor-pointer"
                 onClick={() => handleDelete(post.id)}
               >
                 <FaTrashAlt />

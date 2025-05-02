@@ -19,16 +19,16 @@ export default function Posts() {
   const [body, setBody] = useState("");
   const [editPostId, setEditPostId] = useState<number | null>(null);
   const [search, setSearch] = useState("");
-  const [loading, setLoading] = useState(true); // Estado de carregamento
+  const [loading, setLoading] = useState(true);
 
   const fetchPosts = async () => {
     try {
       const res = await axios.get("https://dummyjson.com/posts");
       setPosts(res.data.posts);
-      setLoading(false); // Dados carregados, remover o carregamento
+      setLoading(false);
     } catch (error) {
       console.error("Erro ao buscar posts:", error);
-      setLoading(false); // Caso de erro, também remover o carregamento
+      setLoading(false);
     }
   };
 

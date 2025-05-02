@@ -27,7 +27,7 @@ export default function Details() {
       try {
         const res = await axios.get(`https://dummyjson.com/posts/${id}`);
         setPost(res.data);
-        console.log(res.data);
+        setLoading(false);
       } catch (error) {
         console.error("Erro ao buscar post:", error);
       } finally {
@@ -38,7 +38,25 @@ export default function Details() {
     fetchPost();
   }, [id]);
 
-  if (loading) return <p className="text-center mt-10">Carregando...</p>;
+  if (loading) return (
+    <div className="h-screen flex items-center justify-center bg-gray-100">
+      <div className="max-w-3xl w-full p-6 bg-white shadow-md rounded-xl animate-pulse">
+        <div className="h-8 bg-gray-300 rounded w-3/4 mb-4"></div>
+        <div className="space-y-2 mb-4">
+          <div className="h-4 bg-gray-300 rounded w-full"></div>
+          <div className="h-4 bg-gray-300 rounded w-11/12"></div>
+          <div className="h-4 bg-gray-300 rounded w-10/12"></div>
+        </div>
+        <div className="flex gap-2 mb-4">
+          <div className="h-6 w-20 bg-gray-300 rounded-full"></div>
+          <div className="h-6 w-16 bg-gray-300 rounded-full"></div>
+          <div className="h-6 w-24 bg-gray-300 rounded-full"></div>
+        </div>
+        <div className="h-10 w-48 bg-gray-300 rounded-lg"></div>
+      </div>
+    </div>
+  );
+  
   if (!post) return <p className="text-center mt-10">Post não encontrado.</p>;
 
   return (

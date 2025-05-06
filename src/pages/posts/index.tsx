@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { FaEdit, FaTrashAlt, FaSearch, FaPlus, FaSun, FaMoon } from "react-icons/fa";
+import { FaEdit, FaTrashAlt, FaSearch, FaEye, FaPlus, FaSun, FaMoon } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Skeleton from "react-loading-skeleton";
@@ -207,6 +207,12 @@ export default function Posts() {
                 }`}
             >
               <div className="flex gap-2 sm:absolute sm:top-2 sm:right-2 self-end">
+                <Link
+                  to={`/details/${post.id}`}
+                  className="bg-blue-400 px-3 py-1 rounded text-white cursor-pointer"
+                >
+                  <FaEye />
+                </Link>
                 <button
                   className="bg-yellow-400 px-3 py-1 rounded text-white cursor-pointer"
                   onClick={() => handleEdit(post)}
@@ -221,10 +227,9 @@ export default function Posts() {
                 </button>
               </div>
 
-              <Link to={`/details/${post.id}`} className="cursor-pointer">
                 <h2 className="text-lg font-semibold">{post.title}</h2>
                 <p>{post.body}</p>
-              </Link>
+                
             </div>
           ))}
       </div>

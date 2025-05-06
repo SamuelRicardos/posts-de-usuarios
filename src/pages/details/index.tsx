@@ -85,7 +85,7 @@ export default function Details() {
 
         <p className="mb-4">{post.body}</p>
 
-        <p className="mb-1 font-semibold">Categoria da história:</p>
+        <p className="mb-1 font-semibold">Categoria do texto:</p>
         <div className="flex flex-wrap gap-2 mb-4">
           {post.tags.map((tag, index) => (
             <span
